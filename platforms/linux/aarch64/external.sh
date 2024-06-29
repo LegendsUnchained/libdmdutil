@@ -52,24 +52,24 @@ cd ..
 # build libzedmd and copy to external
 #
 
-curl -sL https://github.com/PPUC/libzedmd/archive/${LIBZEDMD_SHA}.zip -o libzedmd.zip
-unzip libzedmd.zip
-cd libzedmd-$LIBZEDMD_SHA
-platforms/linux/aarch64/external.sh
-cmake \
-   -DPLATFORM=linux \
-   -DARCH=aarch64 \
-   -DBUILD_SHARED=ON \
-   -DBUILD_STATIC=OFF \
-   -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
-   -B build
-cmake --build build -- -j${NUM_PROCS}
-cp src/ZeDMD.h ../../third-party/include/
-cp third-party/include/libserialport.h ../../third-party/include/
-cp -a third-party/runtime-libs/linux/aarch64/*.{so,so.*} ../../third-party/runtime-libs/linux/aarch64/
-cp -a build/*.{so,so.*} ../../third-party/runtime-libs/linux/aarch64/
-cp -r test ../../
-cd ..
+# curl -sL https://github.com/PPUC/libzedmd/archive/${LIBZEDMD_SHA}.zip -o libzedmd.zip
+# unzip libzedmd.zip
+# cd libzedmd-$LIBZEDMD_SHA
+# platforms/linux/aarch64/external.sh
+# cmake \
+#    -DPLATFORM=linux \
+#    -DARCH=aarch64 \
+#    -DBUILD_SHARED=ON \
+#    -DBUILD_STATIC=OFF \
+#    -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
+#    -B build
+# cmake --build build -- -j${NUM_PROCS}
+# cp src/ZeDMD.h ../../third-party/include/
+# cp third-party/include/libserialport.h ../../third-party/include/
+# cp -a third-party/runtime-libs/linux/aarch64/*.{so,so.*} ../../third-party/runtime-libs/linux/aarch64/
+# cp -a build/*.{so,so.*} ../../third-party/runtime-libs/linux/aarch64/
+# cp -r test ../../
+# cd ..
 
 #
 # build libserum and copy to external
