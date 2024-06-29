@@ -84,6 +84,9 @@ set(DMDUTIL_INCLUDE_DIRS
    third-party/include
 )
 
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
 if(BUILD_SHARED)
    add_library(dmdutil_shared SHARED ${DMDUTIL_SOURCES})
 
@@ -109,6 +112,7 @@ if(BUILD_SHARED)
          third-party/runtime-libs/${PLATFORM}/${ARCH}
       )
       target_link_libraries(dmdutil_shared PUBLIC cargs zedmd serum serialport sockpp pupdmd)
+      target_link_libraries(dmdutil_shared PRIVATE Threads::Threads)
    elseif(PLATFORM STREQUAL "ios" OR PLATFORM STREQUAL "tvos")
       target_link_directories(dmdutil_shared PUBLIC
          third-party/build-libs/${PLATFORM}/${ARCH}
@@ -143,11 +147,13 @@ if(BUILD_SHARED)
          src/Logger.cpp
       )
       target_link_libraries(dmdserver PUBLIC dmdutil_shared)
+      target_link_libraries(dmdserver PRIVATE Threads::Threads)
 
       add_executable(dmdserver_test
          src/testDmdServer.cpp
       )
       target_link_libraries(dmdserver_test PUBLIC dmdutil_shared)
+      
 
       add_executable(dmdutil_test
          src/test.cpp
@@ -205,6 +211,7 @@ if(BUILD_STATIC)
    add_library(dmdutil_static STATIC ${DMDUTIL_SOURCES})
 
    target_include_directories(dmdutil_static PUBLIC ${DMDUTIL_INCLUDE_DIRS})
+   target_link_libraries(dmdutil_static PRIVATE Threads::Threads)
 
    if(PLATFORM STREQUAL "win")
       set_target_properties(dmdutil_static PROPERTIES
@@ -246,6 +253,7 @@ if(BUILD_STATIC)
             third-party/runtime-libs/${PLATFORM}/${ARCH}
          )
          target_link_libraries(dmdutil_test_s PUBLIC dmdutil_static cargs zedmd serum serialport sockpp pupdmd)
+         target_link_libraries(dmdutil_test_s PRIVATE Threads::Threads)
       endif()
 
       if(POST_BUILD_COPY_EXT_LIBS)
